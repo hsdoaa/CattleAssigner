@@ -21,4 +21,4 @@ XGBoost
 
 
 
-All the classifers are implemented in python using Scikit-learn library.
+All the ML classifers are implemented in python using Scikit-learn library.
