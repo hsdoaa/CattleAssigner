@@ -1,6 +1,5 @@
 assign_animal2breed is a framework that deploys various Machine Learning (ML) models/classifiers for assigning animal to one of four types of breeds (cattle
-populations) usning the minimum number of Single nucleotide polymorphisms (SNPs). The breeds types include African lineage, Indicine lineage, European lineage, and 
-Admixed lineage.  The ML models include:
+populations) usning the minimum number of Single nucleotide polymorphisms (SNPs) determined by different feature reduction and feature selection techniques. The breeds types include African lineage, Indicine lineage, European lineage, and Admixed lineage.  The ML models include:
 
 Support vector machine (SVR)
 
