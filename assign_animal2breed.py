@@ -3,26 +3,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import matplotlib.pyplot as plt
-import plot_learning_curves as plc
 import seaborn as sns
-
-# Importing Keras libraries
-import tensorflow.keras as keras ################I added this line
-from tensorflow import keras 
-from tensorflow.keras import backend as k 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Activation, Dense, Flatten
-#from tensorflow.keras.layers.core import Dense, Flatten
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.metrics import categorical_crossentropy
-from tensorflow.keras.preprocessing.image import load_img,ImageDataGenerator
-from tensorflow.keras.layers import BatchNormalization
-from tensorflow.keras.applications import VGG16, ResNet50
-from tensorflow.keras.applications import imagenet_utils
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
-#from tensorflow.keras.layers.convolutional import *
-from tensorflow.keras.layers import Dropout, Flatten, GlobalAveragePooling2D,GlobalAveragePooling1D, Conv1D
-from tensorflow.keras.preprocessing.image import img_to_array
 
 
 #from keras.utils import np_utils
@@ -39,6 +20,16 @@ from sklearn.metrics import roc_curve, auc
 from sklearn.metrics import roc_curve, auc
 from sklearn.metrics import roc_auc_score # for printing AUC
 
+#for dimensionality reduction to 10 features
+
+from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.manifold import TSNE
+import umap
+#dim_re = PCA(n_components=10)#PCA()
+#dim_re= LinearDiscriminantAnalysis(n_components=3)
+#dim_re= TSNE(n_components=3)#, , n_iter=300
+dim_re = umap.UMAP(n_neighbors=5, min_dist=0.3, n_components=10)
 
 import itertools
 
@@ -123,11 +114,13 @@ columns_train2=['FAM_ID','IND_ID','LIN_ID']
 
 
 #read space separated values file with pandas
-df_train=pd.read_csv('RF_dataset12.ped', delimiter=' ')
+df_train=pd.read_csv('Full_dataset12.ped', delimiter=' ')  
+
+#df_train=pd.read_csv('Dataset_500_no_update.ped', sep='\t') 
 
 print(df_train.shape)
 
-#To drop column 5 with -9 annd N/A values
+#To drop column 5 with -9 and N/A values #phenotype
 
 df_train = df_train.drop(df_train.columns[[5]],axis = 1)
 
@@ -138,25 +131,13 @@ print(df_train.head())
 
 
 
-df1=df_train.iloc[:, 0:5]
-print("$$$^^^^",df1.head())
-df2=df_train.iloc[:, 5:].sample(n=100, axis=1)
-print("$$$^^^^",df2.head())
-
-df_train = pd.concat([df1, df2], axis=1)
-
-print("$$$^^^^",df_train.shape)
 
 
-from sklearn import preprocessing
-le = preprocessing.LabelEncoder()
-df_train.iloc[:, 0] = le.fit_transform(df_train.iloc[:, 0])
-df_train.iloc[:, 1] = le.fit_transform(df_train.iloc[:, 1])
-
-print(df_train.iloc[:, 0:2].head())
 
 
-df_train2=pd.read_csv('FAM_Change_Codes.txt', sep='\t', skiprows=1)
+
+
+df_train2=pd.read_csv('Family_Codes_Full_Dataset.csv', sep='\t', skiprows=1)  
 
 
 
@@ -180,12 +161,63 @@ y_train = df_train2.iloc[: , 2]
 print(",,,,",y_train.shape)
 print(y_train.head())
 
-#y_train = le.fit_transform(df_train2.iloc[: , 2])   
-#print(",,,,",y_train.shape)
 
+#label encoding of y four breeds groups.
+from sklearn import preprocessing  
+le= preprocessing.LabelEncoder()
+y_train = le.fit_transform(df_train2.iloc[: , 2]) 
+ 
+print(",,,,",y_train.shape)
 
+df1=df_train.iloc[:, 0:5]
+print("$$$^^^^",df1.head())
+df2=df_train.iloc[:, 5:]#.sample(n=100, axis=1)
 
+'''
+#implement feature reduction algorithms 
+#x_pca = dim_re.fit_transform(df2)
+#x_tsne = TSNE(learning_rate=100).fit_transform(df2)
+#x_tsne =dim_re.fit_transform(df2)
+#x_lda = dim_re.fit(df2, y_train).transform(df2)
+X_umap=dim_re.fit_transform(df2)
 
+#df2 = pd.DataFrame(x_pca)
+
+#df2 = pd.DataFrame(x_tsne)
+
+#df2 = pd.DataFrame(x_lda)
+
+df2 = pd.DataFrame(X_umap)
+
+print("$$$^^^^",df2.head())
+
+df_train=df2
+#df_train = pd.concat([df1, df2], axis=1)
+
+'''
+
+from sklearn import preprocessing
+le = preprocessing.LabelEncoder()
+df_train.iloc[:, 0] = le.fit_transform(df_train.iloc[:, 0])
+df_train.iloc[:, 1] = le.fit_transform(df_train.iloc[:, 1])
+
+print(df_train.iloc[:, 0:2].head())
+
+'''
+#implement feature selection algorithms with RF
+
+from sklearn.feature_selection import SelectFromModel
+from sklearn.ensemble import RandomForestRegressor
+model = RandomForestRegressor(random_state=1, max_depth=10)
+feature = SelectFromModel(model)
+#y_train=pd.get_dummies(y_train)
+df_train= feature.fit_transform(df_train, y_train)
+
+print(df_train.shape)
+
+print("////",type(df_train))
+features_train = df_train
+'''
 
 features_train = df_train.to_numpy()
 #features_train = df_train[columns_train].to_numpy()
@@ -275,5 +307,7 @@ l=confusion_matrix(y_test, y_pred)#https://towardsdatascience.com/accuracy-preci
 print(l)
 
 print(clf)
+print(dim_re)
 #print(columns_train)
+
 
