@@ -173,28 +173,32 @@ df1=df_train.iloc[:, 0:5]
 print("$$$^^^^",df1.head())
 df2=df_train.iloc[:, 5:]#.sample(n=100, axis=1)
 
-'''
+
 #implement feature reduction algorithms 
 #x_pca = dim_re.fit_transform(df2)
-#x_tsne = TSNE(learning_rate=100).fit_transform(df2)
-#x_tsne =dim_re.fit_transform(df2)
 #x_lda = dim_re.fit(df2, y_train).transform(df2)
+#x_tsne = TSNE(learning_rate=100).fit_transform(df2)
 X_umap=dim_re.fit_transform(df2)
 
 #df2 = pd.DataFrame(x_pca)
 
-#df2 = pd.DataFrame(x_tsne)
-
 #df2 = pd.DataFrame(x_lda)
+
+#df2 = pd.DataFrame(x_tsne)
 
 df2 = pd.DataFrame(X_umap)
 
 print("$$$^^^^",df2.head())
 
-df_train=df2
+print("$$$^^^^",df2.shape)
+
+
+
 #df_train = pd.concat([df1, df2], axis=1)
 
-'''
+
+
+df_train=df2
 
 from sklearn import preprocessing
 le = preprocessing.LabelEncoder()
@@ -202,23 +206,22 @@ df_train.iloc[:, 0] = le.fit_transform(df_train.iloc[:, 0])
 df_train.iloc[:, 1] = le.fit_transform(df_train.iloc[:, 1])
 
 print(df_train.iloc[:, 0:2].head())
-
 '''
+
 #implement feature selection algorithms with RF
 
 from sklearn.feature_selection import SelectFromModel
 from sklearn.ensemble import RandomForestRegressor
 model = RandomForestRegressor(random_state=1, max_depth=10)
 feature = SelectFromModel(model)
-#y_train=pd.get_dummies(y_train)
 df_train= feature.fit_transform(df_train, y_train)
 
 print(df_train.shape)
 
 print("////",type(df_train))
 features_train = df_train
-'''
 
+'''
 features_train = df_train.to_numpy()
 #features_train = df_train[columns_train].to_numpy()
 
