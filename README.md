@@ -1,23 +1,10 @@
-assign_animal2breed is a framework that deploys various Machine Learning (ML) models/classifiers for assigning animal to one of four types of breeds (cattle
-populations) usning the minimum number of Single nucleotide polymorphisms (SNPs) determined by different feature reduction and feature selection techniques. The breeds types include African lineage, Indicine lineage, European lineage, and Admixed lineage.  The ML models include:
-
-Support vector machine (SVR)
-
-Neural Network
-
-k-nearest neighbors (KNN)
+CattleAssigner is a framework that deploys various Machine Learning (ML) models/classifiers for assigning animal to one of four types of cattle lineages  and  their populations within the prospective lineage usning the minimum number of Single nucleotide polymorphisms (SNPs) determined by different feature reduction and feature selection techniques. The lineage types include African lineage, Indicine lineage, European lineage, and Admixed lineage.  The ML models include:
 
 Random forest (RF) 
-
-Decision tree (DT)
-
-Logistic regression (LR)
-
-Naive bayes (NB)
 
 XGBoost
 
 
+The RF model  have been implemented in python using Scikit-learn library and XGBoost ML model has been implemented using Python XGBoost package.
 
-
-All the ML classifers have been implemented in python using Scikit-learn library except XGBoost that has been implemented using Python XGBoost package.
+The minimum number of Single nucleotide polymorphisms (SNPs) determined by FST and PCA feature ranked methods and the RF with GINI and RF with MDA feature selection methods. 
