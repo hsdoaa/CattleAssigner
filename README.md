@@ -26,6 +26,6 @@ To run RF with GINI feature selection method, please run RF_gini.py
 
 To run RF with MDA feature selection method, please run RF_mda.py
 
-The most informative SNPs determined by fixation index (FST) were provided by the first author of this paper from external data source.
+The most informative SNPs determined by fixation index (FST) were provided by the first author of CattleAssigner paper from external data source.
 
 
