@@ -26,6 +26,10 @@ To run RF with GINI feature selection method, please run RF_gini.py
 
 To run RF with MDA feature selection method, please run RF_mda.py
 
-The most informative SNPs determined by fixation index (FST) were provided by the first author of CattleAssigner paper from external data source.
+The most informative SNPs determined by fixation index (FST) were provided by the first author of CattleAssigner paper from external public data source.
+
+To allow user practicing with  CattleAssigner ML models clf_XGBoost.py or clf_RF.py, we provide a sample dataset (192_slected_SNPs_RF_mda.csv) with the most informative SNPs selected by RF_mda feature selection method. The user can generate similar datasets with most informative SNPs using the CattleAssigner feature selection methods pca_select_features.py or RF_gini.py or RF_mda.py.  We also provide dataset annotation file (dataset_annotation.csv) that is needed to annotate/label each sample in 192_slected_SNPs_RF_mda.csv for any of the four lineages (African or European or Indicine lineage or admixed lineage).
+
+
 
 
